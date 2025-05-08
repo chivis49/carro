@@ -20,8 +20,23 @@ function drawObstacles() {
   });
 }
 
+let speed = 5;
+let levelTimer = 0;
+
 function updateObstacles() {
-  obstacles.forEach(obs => obs.y += 5);
+  obstacles.forEach(obs => obs.y += speed);
+  obstacles = obstacles.filter(obs => obs.y < canvas.height && obs.height > 0);
+  if (Math.random() < 0.05) {
+    let x = Math.random() < 0.5 ? 100 : 250;
+    obstacles.push({ x: x, y: 0, width: 50, height: 100 });
+  }
+
+  // Subir nivel cada 5 segundos
+  levelTimer++;
+  if (levelTimer % 300 === 0 && speed < 15) {
+    speed += 1;
+  }
+}
   obstacles = obstacles.filter(obs => obs.y < canvas.height);
   if (Math.random() < 0.05) {
     let x = Math.random() < 0.5 ? 100 : 250;
